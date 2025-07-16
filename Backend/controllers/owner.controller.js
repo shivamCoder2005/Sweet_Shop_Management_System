@@ -48,9 +48,9 @@ export const loginOwner = async (req, res) => {
 export const addNewSweet = async (req, res) => {
   const sweetData = req.body.sweetData;
   console.log(sweetData);
-  
+
   if (!sweetData) {
-    res.status(400).json({ msg: "Sweet Data Can't be null" });
+    res.status(400).json({ msg: "Sweet Data not found" });
     return;
   }
 
@@ -68,4 +68,27 @@ export const addNewSweet = async (req, res) => {
     return;
   }
   res.status(500).json({ msg: "Error while creating new sweet" });
+};
+
+export const updateSweet = async (req, res) => {
+  const sweetId = req.params.sweetId;
+  const sweetData = req.body.sweetData;
+
+  if (!sweetData) {
+    res.status(400).json({ msg: "Sweet Data not found" });
+    return;
+  }
+
+  console.log(sweetData);
+  const dbSweet = await Sweet.findByIdAndUpdate(sweetId, sweetData, {
+    runValidators: true,
+    new: true,
+  });
+
+  if (!dbSweet) {
+    res.status(500).json({ msg: "error while updating sweet" });
+    return;
+  }
+
+  res.status(200).json({ msg: "Sweet updated successfully", data: dbSweet });
 };

@@ -1,6 +1,6 @@
-import { signupOwner, loginOwner, addNewSweet } from "./owner.controller.js";
+import { signupOwner, loginOwner, addNewSweet,updateSweet } from "./owner.controller.js";
 import { loginUser, signupUser } from "./user.controller.js";
-import { getAllSweets } from "./sweet.controller.js";
+import { getAllSweets, getOneSweet } from "./sweet.controller.js";
 
 export {
   signupOwner,
@@ -9,4 +9,6 @@ export {
   signupUser,
   addNewSweet,
   getAllSweets,
+  getOneSweet,
+  updateSweet
 };

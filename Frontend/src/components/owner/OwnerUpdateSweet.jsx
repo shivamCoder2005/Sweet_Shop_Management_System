@@ -1,30 +1,44 @@
-import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import { BackendUrl } from "../constants/constant";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-function OwnerAddSweet() {
+function OwnerUpdateSweet() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
+  const { sweetId } = useParams();
   const navigate = useNavigate();
-  
-  const addSweet = async (data) => {
-    console.log(data);
+
+  const fetchOldSweetData = async () => {
     try {
-      const result = await axios.post(`${BackendUrl}/owner/sweets`, {
+      const result = await axios.get(`${BackendUrl}/sweets/${sweetId}`);
+      console.log(result);
+      reset(result.data.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchOldSweetData();
+  }, []);
+
+  const updateSweet = async (data) => {
+    try {
+      const result = await axios.put(`${BackendUrl}/owner/sweets/${sweetId}`, {
         sweetData: data,
       });
-      if (result.status == 200) {
-        navigate("/home");
-      }
       console.log(result);
+      if (result.status == 200) {
+        navigate(-1);
+      }
     } catch (error) {
       console.log(error);
-      console.error(error?.response?.data?.message);
+      console.error(error?.response?.data?.msg);
     }
   };
 
@@ -33,10 +47,10 @@ function OwnerAddSweet() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 px-4">
         <div className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-2xl w-full max-w-md">
           <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-8">
-            Add Sweet
+            Update Sweet
           </h2>
 
-          <form onSubmit={handleSubmit(addSweet)} className="space-y-6">
+          <form onSubmit={handleSubmit(updateSweet)} className="space-y-6">
             <div>
               <label
                 htmlFor="name"
@@ -130,7 +144,7 @@ function OwnerAddSweet() {
               type="submit"
               className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition disabled:opacity-50"
             >
-              Add Sweet
+              Update Sweet
             </button>
           </form>
         </div>
@@ -139,4 +153,4 @@ function OwnerAddSweet() {
   );
 }
 
-export default OwnerAddSweet;
+export default OwnerUpdateSweet;

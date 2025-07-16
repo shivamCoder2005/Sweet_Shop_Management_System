@@ -14,6 +14,23 @@ export const getAllSweets = async (req, res) => {
     return;
   }
 
-  res.status(200).json({ msg: "Sweets Fetch Sucessfully", data:result });
+  res.status(200).json({ msg: "Sweets Fetch Sucessfully", data: result });
 };
 
+export const getOneSweet = async (req, res) => {
+  const sweetId = req.params.sweetId;
+  
+  if (!sweetId) {
+    res.status(400).json({ msg: "Sweet id not found" });
+    return;
+  }
+
+  const dbSweet = await Sweet.findById(sweetId);
+
+  if (!dbSweet) {
+    res.status(404).json({ msg: "sweet not found" });
+    return;
+  }
+
+  res.status(200).json({ msg: "Sweet data fetch successfully", data: dbSweet });
+};
