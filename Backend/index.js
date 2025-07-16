@@ -5,17 +5,17 @@ import mongoose from "mongoose";
 const app = express();
 const port = 3000;
 
-import { User, Owner, Sweet } from "./models/index.js";
+import { userRouter, ownerRouter } from "./routes/index.js";
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen(3000, () => {
-    console.log("Server is listening..");
+  app.listen(port, () => {
+    console.log("Server is listening on port:", port);
   });
 }
 
 main()
   .then(() => {
-    console.log("connection successful");
+    console.log("DB connected successfully");
   })
   .catch((err) => console.log(err));
 
@@ -33,94 +33,7 @@ app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/owner/signup", async (req, res) => {
-  const ownerData = req.body.ownerData;
-  if (!ownerData) {
-    res.status(400).json({ msg: "Owner Data Can't be null" });
-    return;
-  }
-
-  const dbUser = await Owner.findOne({ email: ownerData.email });
-
-  if (dbUser) {
-    res.status(409).json({ msg: "Email Already exist" });
-    return;
-  }
-
-  const newOwner = new Owner(ownerData);
-  const result = await newOwner.save();
-
-  if (result) {
-    res.status(200).json({ msg: "Owner Registered Sucessfully", data: result });
-  }
-});
-
-app.post("/owner/login", async (req, res) => {
-  const ownerData = req.body.ownerData;
-  if (!ownerData) {
-    res.status(400).json({ msg: "Owner Data Can't be null" });
-    return;
-  }
-  const dbUser = await Owner.findOne({ email: ownerData.email });
-
-  if (!dbUser) {
-    res.status(404).json({ msg: "Owner Not Found" });
-    return;
-  }
-
-  if (dbUser.password !== ownerData.password) {
-    res.status(401).json({ msg: "Password Not Match" });
-    return;
-  }
-
-  res.status(200).json({ msg: "Owner Loggedin Sucessfully", data: dbUser });
-});
-
-app.post("/user/signup", async (req, res) => {
-  const userData = req.body.userData;
-  if (!userData) {
-    res.status(400).json({ msg: "User Data Can't be null" });
-    return;
-  }
-
-  const dbUser = await User.findOne({ email: userData.email });
-  console.log(dbUser);
-
-  if (dbUser) {
-    res.status(409).json({ msg: "Email Already exist" });
-    return;
-  }
-
-  const newUser = new User(userData);
-  const result = await newUser.save();
-  console.log(result);
-  if (result) {
-    res.status(200).json({ msg: "User Registered Sucessfully", data: result });
-  } else res.status(205);
-});
-
-app.post("/user/login", async (req, res) => {
-  const userData = req.body.userData;
-
-  if (!userData) {
-    res.status(400).json({ msg: "User Data Can't be null" });
-    return;
-  }
-
-  const dbUser = await User.findOne({ email: userData.email });
-  console.log(dbUser);
-
-  if (!dbUser) {
-    res.status(404).json({ msg: "User Not Found" });
-    return;
-  }
-
-  if (dbUser.password !== userData.password) {
-    res.status(401).json({ msg: "Password Not Match" });
-    return;
-  }
-
-  res.status(200).json({ msg: "User Loggedin Sucessfully", data: dbUser });
-});
+app.use("/user", userRouter);
+app.use("/owner", ownerRouter);
 
 export { app };
