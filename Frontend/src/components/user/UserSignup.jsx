@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { BackendUrl } from "../constants/constant";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function UserSignup() {
   const {
@@ -10,15 +10,20 @@ function UserSignup() {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const signUpUser = async (data) => {
     try {
       const result = await axios.post(`${BackendUrl}/user/signup`, {
         userData: data,
       });
+      if (result.status == 200) {
+        navigate("/home");
+      }
       console.log(result);
     } catch (error) {
       console.log(error);
-      console.error(error?.response?.data?.message);
+      console.error(error?.response?.data?.msg);
     }
   };
 

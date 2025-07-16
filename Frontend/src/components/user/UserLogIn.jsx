@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { BackendUrl } from "../constants/constant";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function UserLogIn() {
   const {
@@ -10,15 +11,20 @@ function UserLogIn() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const loginUser = async (data) => {
     try {
       const result = await axios.post(`${BackendUrl}/user/login`, {
         userData: data,
       });
+      if (result.status == 200) {
+        navigate("/home");
+      }
       console.log(result);
     } catch (error) {
       console.log(error);
-      console.error(error?.response?.data?.message);
+      console.error(error?.response?.data?.msg);
     }
   };
 
