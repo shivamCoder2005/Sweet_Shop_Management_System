@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { BackendUrl } from "../constants/constant";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function OwnerLogIn() {
   const {
@@ -10,15 +10,20 @@ function OwnerLogIn() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const loginOwner = async (data) => {
     try {
       const result = await axios.post(`${BackendUrl}/owner/login`, {
         ownerData: data,
       });
+      if (result.status == 200) {
+        navigate("/home");
+      }
       console.log(result);
     } catch (error) {
       console.log(error);
-      console.error(error?.response?.data?.message);
+      console.error(error?.response?.data?.msg);
     }
   };
 
@@ -102,14 +107,14 @@ function OwnerLogIn() {
             </button>
 
             <p className="text-center text-sm text-gray-600 mt-4">
-            Don't have an account?{" "}
-            <Link
-              to="/owner/signup"
-              className="text-blue-600 font-semibold hover:underline"
-            >
-              signup
-            </Link>
-          </p>
+              Don't have an account?{" "}
+              <Link
+                to="/owner/signup"
+                className="text-blue-600 font-semibold hover:underline"
+              >
+                signup
+              </Link>
+            </p>
           </form>
         </div>
       </div>

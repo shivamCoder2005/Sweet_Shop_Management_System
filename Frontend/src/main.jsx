@@ -8,6 +8,8 @@ import {
   OwnerSignup,
   UserLogIn,
   OwnerLogIn,
+  OwnerAddSweet,
+  Home,
 } from "./components/index.js";
 
 const root = createRoot(document.getElementById("root"));
@@ -22,7 +24,10 @@ root.render(
       <Route path="/owner/login" element={<OwnerLogIn />} />
 
       {/* App Layout */}
-      <Route path="/" element={<App />}></Route>
+      <Route path="/" element={<App />}>
+        <Route path="/owner/add_sweet" element={<OwnerAddSweet />} />
+        <Route path="/home" element={<Home />} />
+      </Route>
     </Routes>
   </BrowserRouter>
 );
