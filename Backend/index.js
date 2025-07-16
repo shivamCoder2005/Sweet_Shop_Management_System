@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const app = express();
 const port = 3000;
 
-import { userRouter, ownerRouter } from "./routes/index.js";
+import { userRouter, ownerRouter, sweetRouter } from "./routes/index.js";
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {
@@ -35,5 +35,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRouter);
 app.use("/owner", ownerRouter);
+app.use("/sweet", sweetRouter);
 
 export { app };
