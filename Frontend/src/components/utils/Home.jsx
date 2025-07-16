@@ -1,10 +1,11 @@
 import axios from "axios";
 import { BackendUrl } from "../constants/constant";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [sweetData, setSweetData] = useState();
-  
+
   const [sortFilter, setSortFilter] = useState({
     name: "",
     category: "",
@@ -13,10 +14,11 @@ function Home() {
   });
 
   const [fetchFlag, setFetchFlag] = useState(false);
+  const navigate = useNavigate();
 
   const fetchSweets = async () => {
     try {
-      const result = await axios.get(`${BackendUrl}/sweet/all`);
+      const result = await axios.get(`${BackendUrl}/sweets/all`);
       console.log(result);
       if (result.status == 200) {
         console.log(result.data.data);
@@ -31,6 +33,10 @@ function Home() {
   useEffect(() => {
     fetchSweets();
   }, []);
+
+  const goToUpdate = async (sweetId) => {
+    navigate(`/owner/update_sweet/${sweetId}`);
+  };
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -51,6 +57,13 @@ function Home() {
               <p className="text-gray-600">Category: {sweet.category}</p>
               <p className="text-gray-600">Price: ₹{sweet.price}</p>
               <p className="text-gray-600">Quantity: {sweet.quantity}</p>
+              <button
+                onClick={() => {
+                  goToUpdate(sweet._id);
+                }}
+              >
+                Update
+              </button>
             </div>
           ))}
         </div>

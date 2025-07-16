@@ -11,7 +11,7 @@ describe("Sweet API Test", () => {
         price: 1000,
         quantity: 5,
       };
-      const res = await request(app).post("/owner/addSweet").send({
+      const res = await request(app).post("/owner/sweets").send({
         sweetData,
       });
       expect(res.status).toBe(200);
@@ -24,7 +24,7 @@ describe("Sweet API Test", () => {
         price: 1000,
         quantity: 5,
       };
-      const res = await request(app).post("/owner/addSweet").send({
+      const res = await request(app).post("/owner/sweets").send({
         sweetData,
       });
       expect(res.status).toBe(409);
@@ -33,8 +33,48 @@ describe("Sweet API Test", () => {
 
   describe("Get Sweets API Test", () => {
     it("/GET should return all sweets data", async () => {
-      const res = await request(app).get("/sweet/all");
+      const res = await request(app).get("/sweets/all");
       expect(res.statusCode).toBe(200);
     });
+
+    it("/GET should return particular sweets data", async () => {
+      const sweetId = "68776af5ef5a1a580c5e75e5";
+      const res = await request(app).get(`/sweets/${sweetId}`);
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("Update Sweet API Test", () => {
+    it("/UPDATE should succesfully update sweet", async () => {
+      const sweetData = {
+        name: "demo sweet2",
+        category: "nuts",
+        price: 1000,
+        quantity: 500,
+      };
+      const sweetId = "68776af5ef5a1a580c5e75e5";
+      const res = await request(app).put(`/owner/sweets/${sweetId}`).send({
+        sweetData,
+      });
+      expect(res.status).toBe(200);
+    });
+
+    it("/UPDATE should return error as sweet not found", async () => {
+      const sweetData = {
+        name: "demo sweet",
+        category: "nuts",
+        price: 1000,
+        quantity: 50,
+      };
+      const sweetId = "000000000000000000000000";
+      const res = await request(app).put(`/owner/sweets/${sweetId}`).send({
+        sweetData,
+      });
+      expect(res.status).toBe(500);
+    });
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
   });
 });

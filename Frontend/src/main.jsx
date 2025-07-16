@@ -9,6 +9,7 @@ import {
   UserLogIn,
   OwnerLogIn,
   OwnerAddSweet,
+  OwnerUpdateSweet,
   Home,
 } from "./components/index.js";
 
@@ -26,6 +27,10 @@ root.render(
       {/* App Layout */}
       <Route path="/" element={<App />}>
         <Route path="/owner/add_sweet" element={<OwnerAddSweet />} />
+        <Route
+          path="/owner/update_sweet/:sweetId"
+          element={<OwnerUpdateSweet />}
+        />
         <Route path="/home" element={<Home />} />
       </Route>
     </Routes>
