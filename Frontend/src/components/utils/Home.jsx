@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 
 function Home() {
   const [sweetData, setSweetData] = useState();
+  
+  const [sortFilter, setSortFilter] = useState({
+    name: "",
+    category: "",
+    minVal: 0,
+    maxVal: 0,
+  });
+
   const [fetchFlag, setFetchFlag] = useState(false);
 
   const fetchSweets = async () => {
