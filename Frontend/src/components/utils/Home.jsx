@@ -32,10 +32,25 @@ function Home() {
 
   useEffect(() => {
     fetchSweets();
-  }, []);
+  }, [fetchFlag]);
 
   const goToUpdate = async (sweetId) => {
     navigate(`/owner/update_sweet/${sweetId}`);
+  };
+
+  const handleDelete = async (sweetId) => {
+    try {
+      const result = await axios.delete(
+        `${BackendUrl}/owner/sweets/${sweetId}`
+      );
+      console.log(result);
+      if (result.status == 200) {
+        setFetchFlag((prev) => !prev);
+      }
+    } catch (error) {
+      console.log(error);
+      console.error(error?.response?.data?.msg);
+    }
   };
 
   return (
@@ -49,21 +64,35 @@ function Home() {
           {sweetData.map((sweet, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl shadow-md p-4 border hover:shadow-lg transition"
+              className="bg-white rounded-2xl shadow-md p-6 border border-gray-200 hover:shadow-xl transition duration-300"
             >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 {sweet.name}
               </h2>
-              <p className="text-gray-600">Category: {sweet.category}</p>
-              <p className="text-gray-600">Price: ₹{sweet.price}</p>
-              <p className="text-gray-600">Quantity: {sweet.quantity}</p>
-              <button
-                onClick={() => {
-                  goToUpdate(sweet._id);
-                }}
-              >
-                Update
-              </button>
+              <p className="text-gray-600 mb-1">
+                Category: <span className="font-medium">{sweet.category}</span>
+              </p>
+              <p className="text-gray-600 mb-1">
+                Price: <span className="font-medium">₹{sweet.price}</span>
+              </p>
+              <p className="text-gray-600 mb-4">
+                Quantity: <span className="font-medium">{sweet.quantity}</span>
+              </p>
+
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => goToUpdate(sweet._id)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => handleDelete(sweet._id)}
+                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
