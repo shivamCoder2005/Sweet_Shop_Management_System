@@ -30,4 +30,11 @@ describe("Sweet API Test", () => {
       expect(res.status).toBe(409);
     });
   });
+
+  describe("Get Sweets API Test", () => {
+    it("/GET should return all sweets data", async () => {
+      const res = await request(app).get("/sweet/all");
+      expect(res.statusCode).toBe(200);
+    });
+  });
 });
