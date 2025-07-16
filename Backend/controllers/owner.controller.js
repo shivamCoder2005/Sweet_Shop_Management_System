@@ -92,3 +92,23 @@ export const updateSweet = async (req, res) => {
 
   res.status(200).json({ msg: "Sweet updated successfully", data: dbSweet });
 };
+
+export const deleteSweet = async (req, res) => {
+  const sweetId = req.params.sweetId;
+  console.log("****************************************");
+  console.log(sweetId);
+  if (!sweetId) {
+    res.status(400).json({ msg: "sweet id not found" });
+    return;
+  }
+
+  const dbSweet = await Sweet.findByIdAndDelete(sweetId);
+  console.log(dbSweet);
+
+  if (!dbSweet) {
+    res.status(500).json({ msg: "error while deleting sweet" });
+    return;
+  }
+
+  res.status(200).json({ msg: "sweet deleted successfully" });
+};

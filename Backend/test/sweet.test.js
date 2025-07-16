@@ -38,7 +38,7 @@ describe("Sweet API Test", () => {
     });
 
     it("/GET should return particular sweets data", async () => {
-      const sweetId = "68776af5ef5a1a580c5e75e5";
+      const sweetId = "6877fa114e7e24f2005fb90e";
       const res = await request(app).get(`/sweets/${sweetId}`);
       expect(res.statusCode).toBe(200);
     });
@@ -47,12 +47,12 @@ describe("Sweet API Test", () => {
   describe("Update Sweet API Test", () => {
     it("/UPDATE should succesfully update sweet", async () => {
       const sweetData = {
-        name: "demo sweet2",
+        name: "demoUpdateSweet",
         category: "nuts",
         price: 1000,
         quantity: 500,
       };
-      const sweetId = "68776af5ef5a1a580c5e75e5";
+      const sweetId = "6877fa4dc06c87a2a9a718b4";
       const res = await request(app).put(`/owner/sweets/${sweetId}`).send({
         sweetData,
       });
@@ -71,6 +71,21 @@ describe("Sweet API Test", () => {
         sweetData,
       });
       expect(res.status).toBe(500);
+    });
+  });
+
+  // make sure that sweet exist because after runnig it one time we need to change sweetId as old already delete
+  describe("Delete Sweet API Test", () => {
+    it("/DELETE should delete sweet", async () => {
+      const sweetId = "6877faa97198157e4f397bc0";
+      const res = await request(app).delete(`/owner/sweets/${sweetId}`);
+      expect(res.statusCode).toBe(200);
+    });
+
+    it("/DELETE should return error as sweet not exist", async () => {
+      const sweetId = "000000000000000000000000";
+      const res = await request(app).delete(`/owner/sweets/${sweetId}`);
+      expect(res.statusCode).toBe(500);
     });
   });
 
