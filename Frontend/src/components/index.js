@@ -1,5 +1,6 @@
 import UserSignup from "./user/UserSignup";
 import UserLogIn from "./user/UserLogIn";
+import UserBuySweet from "./user/UserBuySweet.jsx";
 
 import OwnerSignup from "./owner/OwnerSignup";
 import OwnerLogIn from "./owner/OwnerLogIn";
@@ -13,6 +14,7 @@ export {
   UserSignup,
   OwnerSignup,
   UserLogIn,
+  UserBuySweet,
   OwnerLogIn,
   OwnerAddSweet,
   Home,

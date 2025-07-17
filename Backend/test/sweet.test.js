@@ -121,8 +121,34 @@ describe("Sweet API Test", () => {
         .send({ updatedStock });
       expect(res.statusCode).toBe(200);
     });
+  });
 
-    
+  describe("Buy Sweet API Test", () => {
+    it("/POST should successfully buy sweets", async () => {
+      const purchaseData = {
+        _id: "6877fa4dc06c87a2a9a718b4",
+        buyQuantity: 100,
+      };
+
+      const res = await request(app)
+        .post("/user/sweets/buy")
+        .send({ purchaseData });
+
+      expect(res.statusCode).toBe(200);
+    });
+
+    it("/POST should return error as not enough stock", async () => {
+      const purchaseData = {
+        _id: "6877fa4dc06c87a2a9a718b4",
+        buyQuantity: 1000000000000,
+      };
+
+      const res = await request(app)
+        .post("/user/sweets/buy")
+        .send({ purchaseData });
+
+      expect(res.statusCode).toBe(400);
+    });
   });
 
   afterAll(async () => {
