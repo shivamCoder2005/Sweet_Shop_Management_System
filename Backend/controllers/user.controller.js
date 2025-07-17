@@ -47,3 +47,9 @@ export const loginUser = async (req, res) => {
 
   res.status(200).json({ msg: "User Loggedin Sucessfully", data: dbUser });
 };
+
+export const purchaseSweets = async (req,res) => {
+  const purchaseData = req.body.purchaseData;
+
+  
+}

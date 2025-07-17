@@ -6,7 +6,11 @@ import {
   deleteSweet,
 } from "./owner.controller.js";
 import { loginUser, signupUser } from "./user.controller.js";
-import { getAllSweets, getOneSweet } from "./sweet.controller.js";
+import {
+  getAllSweets,
+  getOneSweet,
+  sortAndFilterSweets,
+} from "./sweet.controller.js";
 
 export {
   signupOwner,
@@ -17,5 +21,6 @@ export {
   getAllSweets,
   getOneSweet,
   updateSweet,
-  deleteSweet
+  deleteSweet,
+  sortAndFilterSweets
 };

@@ -5,5 +5,6 @@ const router = express.Router({ mergeParams: true });
 
 router.post("/login", loginUser);
 router.post("/signup", signupUser);
+// router.post("/sweets/buy", purchaseSweets);
 
 export default router;
