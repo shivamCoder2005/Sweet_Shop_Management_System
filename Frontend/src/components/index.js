@@ -5,6 +5,7 @@ import OwnerSignup from "./owner/OwnerSignup";
 import OwnerLogIn from "./owner/OwnerLogIn";
 import OwnerAddSweet from "./owner/OwnerAddSweet";
 import OwnerUpdateSweet from "./owner/OwnerUpdateSweet.jsx";
+import OwnerAddStock from "./owner/OwnerAddStock.jsx";
 
 import { Home } from "./utils/index.js";
 
@@ -16,4 +17,5 @@ export {
   OwnerAddSweet,
   Home,
   OwnerUpdateSweet,
+  OwnerAddStock
 };

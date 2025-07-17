@@ -101,9 +101,28 @@ describe("Sweet API Test", () => {
     it("/POST should return filterd sweets", async () => {
       const res = await request(app)
         .post("/sweets/sort-filter")
-        .send({sortFilterOptions});
+        .send({ sortFilterOptions });
       expect(res.statusCode).toBe(200);
     });
+  });
+
+  describe("Update Stock API Test", () => {
+    it("/POST should update the existing stock", async () => {
+      const updatedStock = [
+        {
+          _id: "6877fa114e7e24f2005fb90e",
+          updatedSweetQuantity: 200,
+        },
+        { _id: "6877fa4dc06c87a2a9a718b4", updatedSweetQuantity: 200 },
+      ];
+
+      const res = await request(app)
+        .post("/owner/sweets/addStock")
+        .send({ updatedStock });
+      expect(res.statusCode).toBe(200);
+    });
+
+    
   });
 
   afterAll(async () => {

@@ -4,7 +4,8 @@ import {
   signupOwner,
   addNewSweet,
   updateSweet,
-  deleteSweet
+  deleteSweet,
+  addStockToInventory,
 } from "../controllers/index.js";
 
 const router = express.Router({ mergeParams: true });
@@ -15,5 +16,7 @@ router.post("/signup", signupOwner);
 router.post("/sweets", addNewSweet);
 router.put("/sweets/:sweetId", updateSweet);
 router.delete("/sweets/:sweetId", deleteSweet);
+
+router.post("/sweets/addStock", addStockToInventory);
 
 export default router;
