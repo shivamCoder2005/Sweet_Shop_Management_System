@@ -89,6 +89,23 @@ describe("Sweet API Test", () => {
     });
   });
 
+  describe("Get filterd sweet API Test", () => {
+    const sortFilterOptions = {
+      name: "",
+      category: "nuts",
+      sortBy: "price",
+      sort: 1,
+      minVal: 100,
+      maxVal: 500,
+    };
+    it("/POST should return filterd sweets", async () => {
+      const res = await request(app)
+        .post("/sweets/sort-filter")
+        .send({sortFilterOptions});
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
   afterAll(async () => {
     await mongoose.connection.close();
   });
