@@ -2,7 +2,6 @@ import { Sweet } from "../models/index.js";
 
 export const getAllSweets = async (req, res) => {
   const result = await Sweet.find({});
-  console.log(result);
 
   if (!result) {
     res.status(500).json({ msg: "Error while Fetching Sweets" });
@@ -74,4 +73,3 @@ export const sortAndFilterSweets = async (req, res) => {
 
   res.status(200).json({ msg: "Sorted Successfully", data: result });
 };
-
