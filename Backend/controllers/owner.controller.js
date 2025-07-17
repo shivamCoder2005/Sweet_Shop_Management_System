@@ -47,7 +47,6 @@ export const loginOwner = async (req, res) => {
 
 export const addNewSweet = async (req, res) => {
   const sweetData = req.body.sweetData;
-  console.log(sweetData);
 
   if (!sweetData) {
     res.status(400).json({ msg: "Sweet Data not found" });
@@ -79,7 +78,6 @@ export const updateSweet = async (req, res) => {
     return;
   }
 
-  console.log(sweetData);
   const dbSweet = await Sweet.findByIdAndUpdate(sweetId, sweetData, {
     runValidators: true,
     new: true,
@@ -95,14 +93,12 @@ export const updateSweet = async (req, res) => {
 
 export const deleteSweet = async (req, res) => {
   const sweetId = req.params.sweetId;
-  console.log(sweetId);
   if (!sweetId) {
     res.status(400).json({ msg: "sweet id not found" });
     return;
   }
 
   const dbSweet = await Sweet.findByIdAndDelete(sweetId);
-  console.log(dbSweet);
 
   if (!dbSweet) {
     res.status(500).json({ msg: "error while deleting sweet" });
@@ -123,7 +119,8 @@ export const addStockToInventory = async (req, res) => {
   // we can also use $inc operator of mongodb to update existing quantity
   const promises = updatedStock.map((us) => {
     if (us.updatedSweetQuantity) {
-      return Sweet.findByIdAndUpdate( //it will return null if _id not found rather than throw err
+      return Sweet.findByIdAndUpdate(
+        //it will return null if _id not found rather than throw err
         us._id,
         { quantity: us.updatedSweetQuantity },
         { new: true, runValidators: true }
@@ -133,7 +130,6 @@ export const addStockToInventory = async (req, res) => {
   });
 
   const result = await Promise.all(promises);
-  console.log(result);
 
   res.status(200).json({ msg: "new stock added to inventory" });
 };
