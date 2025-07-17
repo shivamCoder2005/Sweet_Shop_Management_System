@@ -12,6 +12,7 @@ function UserSignup() {
 
   const navigate = useNavigate();
 
+  // creating new user
   const signUpUser = async (data) => {
     try {
       const result = await axios.post(`${BackendUrl}/user/signup`, {

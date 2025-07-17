@@ -12,6 +12,7 @@ function OwnerLogIn() {
 
   const navigate = useNavigate();
 
+  // log in owner to app
   const loginOwner = async (data) => {
     try {
       const result = await axios.post(`${BackendUrl}/owner/login`, {
