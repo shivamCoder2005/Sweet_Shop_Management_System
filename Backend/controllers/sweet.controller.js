@@ -1,6 +1,7 @@
 import { Sweet } from "../models/index.js";
 
 export const getAllSweets = async (req, res) => {
+  // fetch all the sweets
   const result = await Sweet.find({});
 
   if (!result) {
@@ -24,6 +25,7 @@ export const getOneSweet = async (req, res) => {
     return;
   }
 
+  // fetch paritcular sweet
   const dbSweet = await Sweet.findById(sweetId);
 
   if (!dbSweet) {
@@ -35,29 +37,34 @@ export const getOneSweet = async (req, res) => {
 };
 
 export const sortAndFilterSweets = async (req, res) => {
-  const sortFilterOptions = req.body.sortFilterOptions;
+  const { sortFilterOptions } = req.body;
 
   const matchConditions = [];
 
+  // check whether name is selected or not
   if (sortFilterOptions.name !== "") {
     matchConditions.push({
       name: { $regex: `^${sortFilterOptions.name}`, $options: "i" },
     });
   }
 
+  // check whether catagory is selected or not
   if (sortFilterOptions.category !== "") {
     matchConditions.push({ category: sortFilterOptions.category });
   }
 
+  // parse sort,minVal,maxVal into int
   let result = null;
   sortFilterOptions.sort = parseInt(sortFilterOptions.sort);
   sortFilterOptions.minVal = parseInt(sortFilterOptions.minVal);
   sortFilterOptions.maxVal = parseInt(sortFilterOptions.maxVal);
 
+  // check whether name is selected or not
   matchConditions.push({
     price: { $gte: sortFilterOptions.minVal, $lte: sortFilterOptions.maxVal },
   });
 
+  // check whether name is selected or not
   if (sortFilterOptions.sortBy !== "" && sortFilterOptions.sort !== 0) {
     const sortOptions = {};
     sortOptions[sortFilterOptions.sortBy] = sortFilterOptions.sort;

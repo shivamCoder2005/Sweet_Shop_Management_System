@@ -17,6 +17,7 @@ import {
 
 const root = createRoot(document.getElementById("root"));
 
+// defining routes
 root.render(
   <BrowserRouter>
     <Routes>

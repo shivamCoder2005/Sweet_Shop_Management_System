@@ -1,4 +1,4 @@
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import { BackendUrl } from "../constants/constant";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,7 @@ function UserBuySweet() {
   const { sweetId } = useParams();
   const [billPrice, setBillPrice] = useState(0);
 
+  // fetching select sweet from db
   const getSweet = async () => {
     try {
       const result = await axios.get(`${BackendUrl}/sweets/${sweetId}`);
@@ -38,6 +39,7 @@ function UserBuySweet() {
     getSweet();
   }, []);
 
+  // buy and update stock quantity 
   const buySweet = async (data) => {
     const purchaseData = { ...sweetData, buyQuantity: data.buyQuantity };
     try {

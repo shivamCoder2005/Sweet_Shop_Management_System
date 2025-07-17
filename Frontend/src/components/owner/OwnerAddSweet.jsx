@@ -12,6 +12,7 @@ function OwnerAddSweet() {
 
   const navigate = useNavigate();
   
+  // adding new sweet to db
   const addSweet = async (data) => {
     console.log(data);
     try {

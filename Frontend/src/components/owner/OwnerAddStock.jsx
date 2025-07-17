@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { BackendUrl } from "../constants/constant";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -15,6 +14,7 @@ function OwnerAddStock() {
   const navigate = useNavigate();
   const [sweetData, setSweetData] = useState([]);
 
+  // getting old inventory data from db
   const fetchInventory = async () => {
     try {
       const result = await axios.get(`${BackendUrl}/sweets/all`);
@@ -36,8 +36,10 @@ function OwnerAddStock() {
   //   }
   // }
 
+  // adding new stocks to db
   const addStock = async (data) => {
-    console.log(data);
+
+    // fomat the newly added stock
     const updatedStock = sweetData.map((sweet, index) => {
       if (data.sweet[index]) {
         return {
@@ -48,7 +50,6 @@ function OwnerAddStock() {
     });
 
     console.log(updatedStock);
-
     try {
       const result = await axios.post(`${BackendUrl}/owner/sweets/addStock`, {
         updatedStock,
@@ -62,6 +63,7 @@ function OwnerAddStock() {
       console.error(error?.response?.data?.msg);
     }
   };
+
   useEffect(() => {
     fetchInventory();
   }, []);
@@ -108,7 +110,7 @@ function OwnerAddStock() {
           <div className="text-center">
             <button
               type="submit"
-              className="mt-4 px-6 py-2 bg-pink-600 text-white font-semibold rounded-md hover:bg-pink-700 transition"
+              className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
             >
               Update Stock
             </button>

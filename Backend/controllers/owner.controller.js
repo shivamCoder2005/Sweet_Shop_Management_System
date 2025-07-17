@@ -1,12 +1,15 @@
-import { User, Owner, Sweet } from "../models/index.js";
+import { Owner, Sweet } from "../models/index.js";
 
 export const signupOwner = async (req, res) => {
-  const ownerData = req.body.ownerData;
+  const { ownerData } = req.body;
+
+  // check whether ownerData receive or not
   if (!ownerData) {
     res.status(400).json({ msg: "Owner Data Can't be null" });
     return;
   }
 
+  // check for email already exist or not
   const dbUser = await Owner.findOne({ email: ownerData.email });
 
   if (dbUser) {
@@ -25,18 +28,22 @@ export const signupOwner = async (req, res) => {
 };
 
 export const loginOwner = async (req, res) => {
-  const ownerData = req.body.ownerData;
+  const { ownerData } = req.body;
+
+  // check whether ownerData receive or not
   if (!ownerData) {
     res.status(400).json({ msg: "Owner Data Can't be null" });
     return;
   }
-  const dbUser = await Owner.findOne({ email: ownerData.email });
 
+  // check for email already exist or not
+  const dbUser = await Owner.findOne({ email: ownerData.email });
   if (!dbUser) {
     res.status(404).json({ msg: "Owner Not Found" });
     return;
   }
 
+  // matching password
   if (dbUser.password !== ownerData.password) {
     res.status(401).json({ msg: "Password Not Match" });
     return;
@@ -46,16 +53,18 @@ export const loginOwner = async (req, res) => {
 };
 
 export const addNewSweet = async (req, res) => {
-  const sweetData = req.body.sweetData;
+  const { sweetData } = req.body;
 
+  // check whether sweetData receive or not
   if (!sweetData) {
     res.status(400).json({ msg: "Sweet Data not found" });
     return;
   }
 
+  // check for sweet with same name exist or not
   const dbSweet = await Sweet.findOne({ name: sweetData.name });
   if (dbSweet) {
-    res.status(409).json({ msg: "Email Already exist" });
+    res.status(409).json({ msg: "Sweet Already exist" });
     return;
   }
 
@@ -73,11 +82,13 @@ export const updateSweet = async (req, res) => {
   const sweetId = req.params.sweetId;
   const sweetData = req.body.sweetData;
 
+  // check whether sweetData receive or not
   if (!sweetData) {
     res.status(400).json({ msg: "Sweet Data not found" });
     return;
   }
 
+  // find sweet by id and update it and ensure model implement on latest data
   const dbSweet = await Sweet.findByIdAndUpdate(sweetId, sweetData, {
     runValidators: true,
     new: true,
@@ -93,11 +104,14 @@ export const updateSweet = async (req, res) => {
 
 export const deleteSweet = async (req, res) => {
   const sweetId = req.params.sweetId;
+
+  // check whether sweetData receive or not
   if (!sweetId) {
     res.status(400).json({ msg: "sweet id not found" });
     return;
   }
 
+  // find sweet by id and delete
   const dbSweet = await Sweet.findByIdAndDelete(sweetId);
 
   if (!dbSweet) {
@@ -111,12 +125,15 @@ export const deleteSweet = async (req, res) => {
 export const addStockToInventory = async (req, res) => {
   const updatedStock = req.body.updatedStock;
 
+  // check whether the updatedStock receive or not
   if (!updatedStock) {
     res.status(400).json({ msg: "new stock not found" });
     return;
   }
 
   // we can also use $inc operator of mongodb to update existing quantity
+
+  // update every stock by id and update
   const promises = updatedStock.map((us) => {
     if (us.updatedSweetQuantity) {
       return Sweet.findByIdAndUpdate(

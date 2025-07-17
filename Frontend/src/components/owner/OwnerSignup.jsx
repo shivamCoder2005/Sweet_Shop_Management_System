@@ -13,6 +13,7 @@ function OwnerSignup() {
 
   const navigate = useNavigate();
 
+  // creating new owner
   const signUpOwner = async (data) => {
     try {
       const result = await axios.post(`${BackendUrl}/owner/signup`, {

@@ -15,6 +15,7 @@ function OwnerUpdateSweet() {
   const { sweetId } = useParams();
   const navigate = useNavigate();
 
+  // fetching old sweet data from db
   const fetchOldSweetData = async () => {
     try {
       const result = await axios.get(`${BackendUrl}/sweets/${sweetId}`);
@@ -27,6 +28,7 @@ function OwnerUpdateSweet() {
     fetchOldSweetData();
   }, []);
 
+  // storing updated sweet data to db
   const updateSweet = async (data) => {
     try {
       const result = await axios.put(`${BackendUrl}/owner/sweets/${sweetId}`, {
