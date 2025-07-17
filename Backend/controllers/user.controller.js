@@ -48,8 +48,32 @@ export const loginUser = async (req, res) => {
   res.status(200).json({ msg: "User Loggedin Sucessfully", data: dbUser });
 };
 
-export const purchaseSweets = async (req,res) => {
+export const purchaseSweets = async (req, res) => {
   const purchaseData = req.body.purchaseData;
 
-  
-}
+  if (!purchaseData) {
+    res.status(400).json({ msg: "purchase sweet data not found" });
+    return;
+  }
+
+  const sweet = await Sweet.findById(purchaseData._id);
+  if (sweet.quantity == 0 || sweet.quantity < purchaseData.buyQuantity) {
+    res.status(400).json({ msg: "Not enough stock to buy" });
+    return;
+  }
+
+  const dbSweet = await Sweet.findByIdAndUpdate(
+    purchaseData._id,
+    {
+      $inc: { quantity: -purchaseData.buyQuantity },
+    },
+    { runValidators: true, new: true }
+  );
+
+  if (!dbSweet) {
+    res.status(500).json({ msg: "error while buying sweet" });
+    return;
+  }
+
+  res.status(200).json({ msg: "successfully buy sweet", data: dbSweet });
+};

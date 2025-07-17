@@ -11,6 +11,7 @@ import {
   OwnerAddSweet,
   OwnerUpdateSweet,
   OwnerAddStock,
+  UserBuySweet,
   Home,
 } from "./components/index.js";
 
@@ -32,10 +33,8 @@ root.render(
           path="/owner/update_sweet/:sweetId"
           element={<OwnerUpdateSweet />}
         />
-        <Route
-          path="/owner/add_stock"
-          element={<OwnerAddStock />}
-        />
+        <Route path="/owner/add_stock" element={<OwnerAddStock />} />
+        <Route path="/user/buy_sweet/:sweetId" element={<UserBuySweet />} />
         <Route path="/home" element={<Home />} />
       </Route>
     </Routes>

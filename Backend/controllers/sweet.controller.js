@@ -37,8 +37,6 @@ export const getOneSweet = async (req, res) => {
 
 export const sortAndFilterSweets = async (req, res) => {
   const sortFilterOptions = req.body.sortFilterOptions;
-  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-  console.log(sortFilterOptions);
 
   const matchConditions = [];
 
@@ -76,3 +74,4 @@ export const sortAndFilterSweets = async (req, res) => {
 
   res.status(200).json({ msg: "Sorted Successfully", data: result });
 };
+

@@ -4,9 +4,9 @@ import {
   addNewSweet,
   updateSweet,
   deleteSweet,
-  addStockToInventory
+  addStockToInventory,
 } from "./owner.controller.js";
-import { loginUser, signupUser } from "./user.controller.js";
+import { loginUser, signupUser, purchaseSweets } from "./user.controller.js";
 import {
   getAllSweets,
   getOneSweet,
@@ -24,5 +24,6 @@ export {
   updateSweet,
   deleteSweet,
   sortAndFilterSweets,
-  addStockToInventory
+  addStockToInventory,
+  purchaseSweets,
 };

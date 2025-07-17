@@ -40,7 +40,7 @@ function Home() {
     fetchSweets();
   }, [fetchFlag]);
 
-  const goToUpdate = async (sweetId) => {
+  const goToUpdate = (sweetId) => {
     navigate(`/owner/update_sweet/${sweetId}`);
   };
 
@@ -62,6 +62,10 @@ function Home() {
   const handlesortFilterOptions = (field, value) => {
     console.log(field, value);
     setsortFilterOptions((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const goToBuy = (sweetId) => {
+    navigate(`/user/buy_sweet/${sweetId}`);
   };
 
   const resetAllFilter = async () => {
@@ -189,36 +193,52 @@ function Home() {
             {sweetData.map((sweet, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-md p-6 border border-gray-200 hover:shadow-xl transition duration-300"
+                className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-2xl transition-transform transform hover:-translate-y-1 duration-300"
               >
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                  {sweet.name}
-                </h2>
-                <p className="text-gray-600 mb-1">
-                  Category:{" "}
-                  <span className="font-medium">{sweet.category}</span>
-                </p>
-                <p className="text-gray-600 mb-1">
-                  Price: <span className="font-medium">₹{sweet.price}</span>
-                </p>
-                <p className="text-gray-600 mb-4">
-                  Quantity:{" "}
-                  <span className="font-medium">{sweet.quantity}</span>
-                </p>
+                <div className="p-6">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                    {sweet.name}
+                  </h2>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <p>
+                      <span className="font-semibold">Category:</span>{" "}
+                      {sweet.category}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Price:</span> ₹
+                      {sweet.price}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Quantity:</span>{" "}
+                      {sweet.quantity}
+                    </p>
+                  </div>
 
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => goToUpdate(sweet._id)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => handleDelete(sweet._id)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
-                  >
-                    Delete
-                  </button>
+                  {/* Buttons */}
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <button
+                      onClick={() => goToUpdate(sweet._id)}
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+                    >
+                      Update
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(sweet._id)}
+                      className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition"
+                    >
+                      Delete
+                    </button>
+
+                    {sweet.quantity > 0 && (
+                      <button
+                        onClick={() => goToBuy(sweet._id)}
+                        className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
+                      >
+                        Buy
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
